@@ -1,8 +1,0 @@
-{
-  "name": "ba1Lite-starter",
-  "description": "A world-class Gemini API starter kit featuring Chat, Live Multimodal interaction, and Image Generation capabilities.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
-}

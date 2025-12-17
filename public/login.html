@@ -1,0 +1,597 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <title>BTS Business Simulation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./login/bootstrap-5.1.3/css/bootstrap.min.css">
+  <script src="./login/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./login/styl/login-style.css">
+  <link rel="icon" type="image/x-icon" href="./login/img/favicon.ico" />
+    <!-- optional: PNG or SVG variants -->
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="src/assets/favicon.PNG" />
+    <link rel="icon" type="image/svg+xml" href="src/assets/favicon.PNG" /> -->
+  <script>
+    // redirect to https
+    (function () {
+      var loc = window.location.href + '';
+      if (loc.indexOf('localhost') === -1 && loc.indexOf('http://') == 0) {
+        window.location.href = loc.replace('http://', 'https://');
+      }
+      if (document.msCapsLockWarningOff == false) {
+        document.msCapsLockWarningOff = true;
+      }
+    })();
+  </script>
+  <script src="./login/jquery-3.1.1.min.js"></script>
+  <script src="./login/js.cookie.min.js"></script>
+  <script src="./login/login.js"></script>
+</head>
+
+<body>
+  <!-- <div class="wave-pattern">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+  </div> -->
+  <div class="animated-waves">
+    <svg aria-hidden="true" class="wave-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28"
+        preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z">
+            </path>
+        </defs>
+        <g class="parallax">
+            <use href="#gentle-wave" x="48" y="0" class="wave-1"></use>
+            <use href="#gentle-wave" x="48" y="3" class="wave-2"></use>
+            <use href="#gentle-wave" x="48" y="5" class="wave-3"></use>
+            <use href="#gentle-wave" x="48" y="7" class="wave-4"></use>
+        </g>
+    </svg>
+  </div>
+  <!-- <div class="circle-rotate circle-rotate-top"><img src="./login/img/inventory-logo_login.svg" alt=""></div> -->
+  <main class="theme">
+    <div class="theme-content">
+      <div id="form1" class="form">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <!-- <h3 class="form-title">
+              Login
+            </h3> -->
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper" id="loginDiv">
+                <form action="javascript:auth();" id="auth-login">
+                  <div class="userNamePasswordWrapper">
+                    <div class="userNamePasswordWrapper_content">
+                      <div class="userNameWrapper">
+                        <label id="usernameLabel" class="textbox-label">Username</label>
+                        <input type="text" name="email" autocomplete="email" id="email" value=""
+                          placeholder="Enter username here" onfocus="javascript:onUserNameFocus();" autocomplete="off"
+                          required oninvalid="invalidMsg(this)" oninput="invalidMsg(this)"/>
+                      </div>
+                      <div class="passwordWrapper">
+                        <label id="passwordLabel" class="textbox-label">Password</label>
+                        <input type="password" autocomplete="current-password" name="pass" id="pass" value=""
+                          autocomplete="off" placeholder="Enter password here" onfocus="javascript:onPasswordFocus();"
+                          onkeypress="javascript:capLock(event);" onkeyup="javascript:capLock(event);" required oninvalid="invalidMsg(this)" oninput="invalidMsg(this)"/>
+                        <div id="divCapsWarn" class="CapsWarn">CapsLock On</div>
+                      </div>
+                    </div>
+                    <div id="loginErrorMessage" class="errorMessage" role="alert"></div>
+                    <div id="signId">
+                      <!-- <div class="forgotLable">
+                        <a onclick="javascript:switchToRegister();" value="REGISTER">Don't have an account?
+                          <b>Register</b>
+                        </a>
+                      </div> -->
+                      <div class="signButton ">
+                        <button type="submit" id="login" value="SIGN IN" class="button button-primary special">
+                          <span class="button-label">Sign In</span>
+                          <div class="button-icon"><i class="fa fa-sign-in" aria-hidden="true"></i></div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="disclaimer-text">
+              &copy; 2025 BTS. All rights reserved.
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Registration -------------------------------------------->
+      <div id="form2" class="form" style="display:none">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title">
+              Register
+            </h3>
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper" id="loginDiv">
+                <form action="javascript:authRegister();" id="registration">
+                  <div class="registerText">
+                    <label class="notice">Enter Authentication code, your name and email to gain access to the
+                      app</label>
+                  </div>
+                  <div class="userNamePasswordWrapper_content">
+                    <div class="userNamePasswordWrapper">
+                      <div class="passwordInputBox">
+                        <input type="password" autocomplete="current-password" name="authCode"
+                          placeholder="Enter Authentication Code" id="authCode" value="" autocomplete="off" required />
+                      </div>
+                    </div>
+                    <div class="userNameWrapper userNamePasswordWrapper">
+                      <div class="userNameInputBox">
+                        <input type="text" autocomplete="username" placeholder="Enter Your Name" name="name" id="name"
+                          value="" autocomplete="off" onkeypress="javascript:checkNameSpecialChars();" required />
+                      </div>
+                    </div>
+                    <div class="userNameWrapper userNamePasswordWrapper">
+                      <div class="userNameInputBox">
+                        <input type="text" autocomplete="email" placeholder="Enter Your Email" name="emailId"
+                          id="emailId" value="" autocomplete="off" onkeypress="javascript:checkEmailSpecialChars();"
+                          required />
+                      </div>
+                    </div>
+                    <div id="regErrorMessage" class="errorMessage"></div>
+                  </div>
+                  <div ID="signId">
+                    <div class="register-link">
+                      <a id="register" value="REGISTER">Already have an account?
+                        <p onclick="javascript:switchToLogin();">Login</p>
+                      </a>
+                    </div>
+                    <div class="loginButtonWrapper">
+                      <button type="submit" id="register" value="SIGN IN" class="button button-primary special">
+                        <span class="button-label">Register</span>
+                        <div class="button-icon"><i class="fa fa-check-circle" aria-hidden="true"></i></div>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="privacy-policy disclaimer-text">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              <a href="https://www.bts.com/privacy-policy" target="_blank">
+                BTS Data Privacy and Cookie Policy
+              </a>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Forgot password -------------------------------------------------------------------------->
+      <div id="form3" class="form" style="display:none">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title"> </h3>
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper" id="emailDiv">
+                <form action="javascript:authEmail();" id="emailAuth">
+                  <label class="notice">
+                    Enter your email and click on the "Save &amp; Continue" button to proceed
+                  </label>
+                  <div class="userNamePasswordWrapper_content">
+                    <div class="userNamePasswordWrapper">
+                      <div class="userNameWrapper">
+                      </div>
+                      <div class="userNameInputBox">
+                        <input type="email" autocomplete="email" placeholder="Enter Your Email Id" name="regemailId"
+                          id="regemailId" autocomplete="off" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                          required />
+                      </div>
+                    </div>
+                    <div id="emailRegErrorMessage" class="errorMessage"></div>
+                  </div>
+                  <div ID="signId">
+                    <div class="signInButtonWrapper">
+                      <button type="submit" id="submitEmail" class="button button-primary special">
+                        <span class="button-label">Save &amp; Continue</span>
+                        <div class="button-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="privacy-policy disclaimer-text">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              <a href="https://www.bts.com/privacy-policy" target="_blank">
+                BTS Data Privacy and Cookie Policy
+              </a>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Email sent message screen--------------------------------------------------------------------------- -->
+      <div id="form4" class="form" style="display:none">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title"> </h3>
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper-message" id="regComplete">
+                <h4>Self Registration</h4>
+                <p>An email has been sent to the email you specified. It should arrive within a few minutes. The
+                  email contains
+                  a link that allows you to set your password and complete the registration.</p>
+                <p>You can close this window now.</p>
+                <br>
+                <p>For additional support please contact
+                  <a href="mailto:support@bts.com">Pulse Support</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <div class="privacy-policy">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              <a href="https://www.bts.com/privacy-policy" target="_blank">
+                BTS Data Privacy and Cookie Policy
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Enter new Password screen ---------------------------------------------------------------------------->
+      <div id="form5" class="form" style="display:none">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title"> </h3>
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper" id="emailDiv">
+                <form action="javascript:authNewPassword();" id="newPwdAuth">
+                  <label class="notice">
+                    Enter your new password and click on the "Save &amp; Continue" button to proceed
+                  </label>
+                  <div class="userNamePasswordWrapper">
+                    <div class="userNamePasswordWrapper_content">
+                      <div class="userNameWrapper">
+                        <div class="userNameInputBox">
+                          <input type="password" autocomplete="new-password" placeholder="Enter New Password"
+                            name="newPwd" id="newPwd" autocomplete="off" required />
+                        </div>
+                      </div>
+                      <div id="newPwdErrorMessage" class="errorMessage"></div>
+                    </div>
+                    <div ID="signId">
+                      <div class="signInButtonWrapper">
+                        <button type="submit" id="submitNewPwd" class="button button-primary special">
+                          <span class="button-label">Save &amp; Continue </span>
+                          <div class="button-icon"><i class="fa fa-check" aria-hidden="true"></i> </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div id="backToLogin" style="display:none">
+                  <p>
+                    Password reset successful. You can
+                    <a class="login-link" onclick="javascript:switchToLogin();">click here</a> to Login now.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="privacy-policy disclaimer-text">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              <a href="https://www.bts.com/privacy-policy" target="_blank">
+                BTS Data Privacy and Cookie Policy
+              </a>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Language selection -------------------------------------------------------->
+      <div id="form6" class="form" style="display:none">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title">Select Language</h3>
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper" id="loginDiv">
+                <form action="javascript:auth();" id="auth-login">
+                  <div id="language">
+                    <div class="userNamePasswordWrapper_content">
+                      <label class="notice">Select your language for this experience before continuing</label>
+                      <div class="selectTag userNamePasswordWrapper">
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle languageData w-100" type="button"
+                            id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="section-1">
+                              <img class="lngicon" src="./login/img/language-white.svg" alt="language" />
+                              <span id="selectedLanguageText">Select Language</span>
+                            </div>
+                            <div class="section-2">
+                              <img class="upIcon arrowIcon" src="./login/img/up_arrow.svg" alt="uparrow" />
+                              <img class="downIcon arrowIcon" src="./login/img/down_arrow.svg" alt="downarrow" />
+                            </div>
+                          </button>
+                          <ul class="dropdown-menu w-100" aria-labelledby="languageDropdown" id="languageData">
+                            <!-- <li class="dropdown-item" data-value="value 0" value="0">English</li>
+                                      <li class="dropdown-item" data-value="value 1" value="1">Something else here</li>
+                                      <li class="dropdown-item" data-value="value 2" value="2">Another action</li>
+                                      <li class="dropdown-item" data-value="value 3" value="3">Something else here</li>
+                                      <li class="dropdown-item" data-value="value 4" value="4">Another action</li>
+                                      <li class="dropdown-item" data-value="value 5" value="5">Something else here</li>
+                                      <li class="dropdown-item" data-value="value 6" value="6">Another action</li>
+                                      <li class="dropdown-item" data-value="value 7" value="7">Something else here</li>
+                                      <li class="dropdown-item" data-value="value 8" value="8">Something else here</li>
+                                      <li class="dropdown-item" data-value="value 9" value="9">Another action</li>
+                                      <li class="dropdown-item" data-value="value 10" value="10">Something else here</li> -->
+                          </ul>
+                        </div>
+                        <!-- <ul class="languageData" id="languageData">
+                                      <img class="downIcon arrowIcon" src="./login/img/down_arrow.svg" />
+                                      <img style="display: none;" class="upIcon arrowIcon" src="./login/img/up_arrow.svg" />
+                                      <img class="lngicon" src="./login/img/language-white.svg" />
+                                      <li class="init">Select Language</li>
+                                      <li class="option">Hindi</li>
+                                      <li class="option">English</li>
+                                      <li class="option">Marathi</li>
+                                      <li class="option">Urdu</li>
+                                    </ul> -->
+                      </div>
+                      <div id="languageError"></div>
+                    </div>
+                    <div id="signId">
+                      <div class="languageButtonWrapper">
+                        <button type="button" id="languageButton" class="button button-primary special">
+                          <span class="button-label">Submit</span>
+                          <div class="button-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="disclaimer-text">
+              &copy; 2025 BTS. All rights reserved.
+            </label>
+          </div>
+        </div>
+      </div>
+      <!--Terms and Condition ------------------------------------->
+      <div id="form7" class="form" style="display:none">
+        <div id="loginBox" class="privacyForm">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title">Consent Form</h3>
+          </div>
+          <div class="login-body">
+            <div id="loginFields">
+              <div class="wrapper" id="loginDiv">
+                <form id="auth-login">
+                  <div id="privacySection" class="privacySection">
+                    <label id="privacyHeader" class="privacyHeader">PARTICIPANT PRIVACY NOTICE AND CONSENT
+                      (Sample)</label>
+                    <div id="privacyText">
+                      I hereby commit to honestly complete this simulation in the following ways: <br>
+                      <ul>
+                        <li>I will not ask for or accept help from others before or during the simulation</li>
+                        <li>I will not share the information provided in the simulation with anyone</li>
+                        <li>I will respect the copyright of the simulation. I will not print or otherwise duplicate it
+                        </li>
+                      </ul><br>Disclosure of any information about this process or any part of it, including discussing,
+                      sharing, or posting,
+                      will be considered a breach of this agreement. <br><br>BTS may collect, use, and disclose the
+                      information you provide
+                      only for the purpose of processing development and application materials. All information
+                      collected in this
+                      questionnaire will be treated with confidentiality under the privacy statement of the company for
+                      which you work.
+                      <br><br>Please find the BTS Privacy Policy here:
+                      <a href="https://www.bts.com/privacy-policy" target="_blank">BTS Privacy Policy</a><br><br>By
+                      clicking
+                      <b>"Accept"</b> you agree to give your consent.
+                    </div>
+                  </div>
+                  <div id="signId">
+                    <div class="languageButtonWrapper">
+                      <button type="button" id="acceptButton" class="button button-secondary submit">
+                        <div class="button-icon"><i class="fa fa-check " aria-hidden="true"></i></div>
+                        <span class="button-label">Accept</span>
+                      </button>
+                      <button type="button" id="declineButton" class="button button-secondary clear">
+                        <div class="button-icon"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        <span class="button-label">Decline</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="disclaimer-text">
+              &copy; 2025 BTS. All rights reserved.
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- already user logged in----------------------------------------------------- -->
+      <div id="form8" class="form" style="display:none">
+        <div id="loginBox">
+          <div class="login-header">
+            <div class="logo-container">
+              <img src="./login/img/bts-logo.svg" alt="BTS" class="bts-logo">
+            </div>
+            <h3 class="form-title">
+              <i class="fa fa-exclamation-circle" aria-hidden="true" style="color:#DA1E28"></i>
+              Alert
+            </h3>
+          </div>
+          <div class="login-body">
+            <div id="alreadyLoggedInBox">
+              <div class="userNamePasswordWrapper_content">
+                <div class="loggedin-body">
+                  <br>
+                  Another user is already logged into this account:
+                  <br /> <span class="loggedin-body-email"></span>
+                  <br />
+                  <div class="loggedin-body-text">
+                    If this is not expected, please contact a facilitator
+                    or email us at <a href="#">support@bts.com</a>
+                  </div>
+                </div>
+              </div>
+              <div id="signId">
+                <div class="loggedIn-footer  loggedin-footer">
+                  <button class="button button-primary special" id="logoutAlreadyLoggedIn" type="button">
+                    <span class="button-label">Log Out</span>
+                    <div class="button-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
+                  </button>
+                  <!-- <button class="button button-primary special" type="button"
+                    onclick="javascript:userAlreadyNotLoggedIn();">
+                    <span class="button-label">Continue</span>
+                    <div class="button-icon"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                  </button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer">
+            <label class="disclaimer-text">
+              &copy; 2025 BTS. All rights reserved.
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <div class="modal hidden" id="aboutModal">
+    <div class="modal-header">
+      <h3 class="form-title about-title">
+        About
+      </h3>
+    </div>
+    <div class="table-wrapper row">
+      <div class="col-12 p-3">
+        <table class="table table-stripped">
+          <thead>
+            <!-- <tr>
+                  <th>Version</th>
+                  <th>
+                    Version Comment Line 1
+                    {{buildVersion}}
+                    Version Comment Line 2
+                  </th>
+                </tr> -->
+            <tr>
+              <th>Pointing To</th>
+              <th class="section link">
+                <a href="{{appConfig.configuration.hostName}}Wizer"
+                  class="anchorTag">{{appConfig.configuration.hostName}}Wizer</a>
+              </th>
+            </tr>
+            <tr>
+              <th>VoteMonitor URL</th>
+              <th>
+                <a href="{{appConfig.configuration.hostName}}wizer/Vote/Monitor"
+                  class="anchorTag">{{appConfig.configuration.hostName}}wizer/Vote/Monitor</a>
+              </th>
+            </tr>
+            <tr>
+              <th>DD URL</th>
+              <th>
+                <button class="copy-icon-link fa fa-external-link" id="copyCodebtn"></button>
+                <a href><span id="DD_URL">{{appConfig.configuration.hostName}}pulse</span>
+                  <br></a>
+                <i><label>(do not open the link in the same browser)</label></i>
+              </th>
+            </tr>
+            <tr>
+              <th>Form Select</th>
+              <th>
+                <div>
+                  <select name="Select Form" id="selectForm" onchange="selectDropdownForm()">
+                    <option value="#form1">Form 1 : Login</option>
+                    <option value="#form2">Form 2 : Register</option>
+                    <option value="#form3">Form 3 : Forgot password</option>
+                    <option value="#form4">Form 4 : Self Registration</option>
+                    <option value="#form5">Form 5 : Password Reset </option>
+                    <option value="#form6">Form 6 : Select Language</option>
+                    <option value="#form7">Form 7 : Consent Form</option>
+                    <option value="#form8">Form 8 : Alert</option>
+                    <!-- <option value="form9">Form 9 : Select Event</option> -->
+                  </select>
+                </div>
+              </th>
+            </tr>
+            <tr id="multipleLoginRow">
+              <th>Ignore Multiple logins</th>
+              <th>
+                <div class="form-check form-switch">
+                  <input class="form-check-input multiple-login-toggle-btn" type="checkbox" role="switch" id="ignoreMultipleLogins"
+                  onchange="ignoreMultipleLoginToggle()">
+                  <!-- <label class="form-check-label" for="ignoreMultipleLogins">Default switch checkbox input</label> -->
+                </div>
+                <span><i><label>(only for internal use)</label></i></span>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="signButton">
+        <button class="button button-primary special" id="okButton" onclick="closeAbout()">
+          <span class="button-label">OK</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="overlay hidden" id="overlay">
+
+  </div>
+</body>
+
+</html>

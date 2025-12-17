@@ -1,0 +1,415 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+IMPORTANT: All colors are now managed dynamically via src/Sim/colors.ts
+The CSS variables below are placeholders and will be overridden at runtime
+by the ColorThemeInitializer component based on the current theme configuration.
+*/
+
+@layer base {
+  :root {
+    /* Theme variables - dynamically injected by ColorThemeInitializer */
+    --background: 220 13% 9%;
+    --foreground: 0 0% 98%;
+    --card: 220 13% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 13% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 338 76% 45%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 338 76% 45%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 13% 16%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 185 61% 29%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 20%;
+    --input: 220 13% 16%;
+    --ring: 338 76% 45%;
+    
+    /* Accent colors - dynamically injected */
+    --accent-1: 185 61% 29%;
+    --accent-2: 259 43% 35%;
+    --accent-3: 350 78% 55%;
+    --accent-4: 210 72% 31%;
+    --accent-5: 196 76% 65%;
+    --accent-6: 349 75% 70%;
+    
+    /* Semantic colors - dynamically injected */
+    --color-information: 224 76% 48%;
+    --color-confirmation: 142 71% 45%;
+    --color-attention: 65 60% 35%;
+    
+    /* UI Constants */
+    --radius: 0.5rem;
+    
+    /* Sidebar variables */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* InfoTooltip - CMM Magenta Theme */
+    --info-button-bg: 335 92% 46%;        /* #E70865 - CMM Magenta */
+    --info-button-bg-end: 335 81% 70%;    /* #EA5F84 - Lighter magenta tint */
+    
+    /* InfoTooltip - Grey variant for dashboard */
+    --info-button-grey: 220 9% 46%;       /* Grey base */
+    --info-button-grey-end: 220 9% 60%;   /* Lighter grey */
+    
+    /* Athena Chatbot - CMM Color Theme */
+    /* Primary CMM Cyan for button and accents */
+    --athena-primary: 199 100% 43%;         /* CMM Cyan #008AD8 */
+    --athena-primary-light: 199 100% 53%;   /* Lighter Cyan */
+    
+    /* Button styling with CMM colors */
+    --athena-button-border: 199 100% 53%;   /* Light Cyan border */
+    --athena-button-glow: 199 100% 43%;     /* Cyan glow */
+    --athena-button-bg-hover: 29 100% 56%;  /* CMM Orange hover #FF8F1C */
+    
+    /* Chat window */
+    --athena-chat-bg: 0 0% 100%;            /* White */
+    --athena-chat-border: 205 37% 93%;      /* CMM Tint Navy #E7EDF1 */
+    --athena-chat-shadow: 203 100% 21%;     /* CMM Navy shadow */
+    --athena-chat-header-text: 0 0% 100%;   /* White text */
+    
+    /* Message bubbles */
+    --athena-message-bot-bg: 214 32% 91%;   /* Light blue-gray #E8ECF4 */
+    --athena-message-bot-text: 203 98% 19%; /* CMM Navy #01426A */
+    --athena-message-user-bg: 199 100% 43%; /* CMM Cyan */
+    --athena-message-user-text: 0 0% 100%;  /* White */
+    
+    /* Loading animation */
+    --athena-message-loading-dot: 203 100% 21%; /* CMM Navy */
+  }
+
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Custom animations */
+  .submit-button-pulse {
+    animation: submit-pulse 10s ease-in-out infinite !important;
+  }
+  
+  @keyframes submit-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.02);
+    }
+  }
+
+  /* Dynamic gradient utility classes */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent-1)));
+  }
+  
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent-6)));
+  }
+  
+  .bg-gradient-accent-1 {
+    background: linear-gradient(135deg, hsl(var(--accent-1)), hsl(var(--accent-5)));
+  }
+  
+  .bg-gradient-accent-2 {
+    background: linear-gradient(135deg, hsl(var(--accent-2)), hsl(var(--accent-6)));
+  }
+  
+  .bg-gradient-accent-3 {
+    background: linear-gradient(135deg, hsl(var(--accent-3)), hsl(var(--color-attention)));
+  }
+  
+  .bg-gradient-accent-4 {
+    background: linear-gradient(135deg, hsl(var(--accent-4)), hsl(var(--accent-5)));
+  }
+  
+  /* Color utility classes using dynamic variables */
+  .text-accent-1 {
+    color: hsl(var(--accent-1));
+  }
+  
+  .text-accent-2 {
+    color: hsl(var(--accent-2));
+  }
+  
+  .text-accent-3 {
+    color: hsl(var(--accent-3));
+  }
+  
+  .text-accent-4 {
+    color: hsl(var(--accent-4));
+  }
+  
+  .bg-accent-1 {
+    background-color: hsl(var(--accent-1));
+  }
+  
+  .bg-accent-2 {
+    background-color: hsl(var(--accent-2));
+  }
+  
+  .bg-accent-3 {
+    background-color: hsl(var(--accent-3));
+  }
+  
+  .bg-accent-4 {
+    background-color: hsl(var(--accent-4));
+  }
+  
+  .border-accent-1 {
+    border-color: hsl(var(--accent-1));
+  }
+  
+  .border-accent-2 {
+    border-color: hsl(var(--accent-2));
+  }
+  
+  .border-accent-3 {
+    border-color: hsl(var(--accent-3));
+  }
+  
+  .border-accent-4 {
+    border-color: hsl(var(--accent-4));
+  }
+  
+  /* Status color utilities */
+  .text-success {
+    color: hsl(var(--color-confirmation));
+  }
+  
+  .text-warning {
+    color: hsl(var(--color-attention));
+  }
+  
+  .text-info {
+    color: hsl(var(--color-information));
+  }
+  
+  .bg-success {
+    background-color: hsl(var(--color-confirmation));
+  }
+  
+  .bg-warning {
+    background-color: hsl(var(--color-attention));
+  }
+  
+  .bg-info {
+    background-color: hsl(var(--color-information));
+  }
+  
+  /* Dynamic shadow utility classes for glow effects */
+  .shadow-accent-1\/20 {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-1) / 0.2);
+  }
+
+  .shadow-accent-2\/20 {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-2) / 0.2);  
+  }
+
+  .shadow-accent-3\/20 {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-3) / 0.2);
+  }
+
+  .shadow-accent-4\/20 {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-4) / 0.2);
+  }
+
+  .shadow-primary\/20 {
+    box-shadow: 0 25px 50px -12px hsl(var(--primary) / 0.2);
+  }
+
+  /* Hover versions with 30% opacity */
+  .hover\:shadow-accent-1\/30:hover {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-1) / 0.3);
+  }
+
+  .hover\:shadow-accent-2\/30:hover {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-2) / 0.3);
+  }
+
+  .hover\:shadow-accent-3\/30:hover {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-3) / 0.3);
+  }
+
+  .hover\:shadow-accent-4\/30:hover {
+    box-shadow: 0 25px 50px -12px hsl(var(--accent-4) / 0.3);
+  }
+
+  .hover\:shadow-primary\/30:hover {
+    box-shadow: 0 25px 50px -12px hsl(var(--primary) / 0.3);
+  }
+
+  /* CMM Brand tint utilities */
+  .bg-tint-orange {
+    background-color: hsl(var(--tint-orange));
+  }
+
+  .bg-tint-magenta {
+    background-color: hsl(var(--tint-magenta));
+  }
+
+  .bg-tint-cyan {
+    background-color: hsl(var(--tint-cyan));
+  }
+
+  .bg-tint-navy {
+    background-color: hsl(var(--tint-navy));
+  }
+
+  /* CMM specific color utilities */
+  .text-cmm-orange {
+    color: hsl(var(--accent-3));
+  }
+
+  .text-cmm-magenta {
+    color: hsl(var(--accent-2));
+  }
+
+  .text-cmm-cyan {
+    color: hsl(var(--accent-1));
+  }
+
+  .text-cmm-navy {
+    color: hsl(var(--accent-4));
+  }
+
+  .bg-cmm-orange {
+    background-color: hsl(var(--accent-3));
+  }
+
+  .bg-cmm-magenta {
+    background-color: hsl(var(--accent-2));
+  }
+
+  .bg-cmm-cyan {
+    background-color: hsl(var(--accent-1));
+  }
+
+  .bg-cmm-navy {
+    background-color: hsl(var(--accent-4));
+  }
+
+  /* CMM gradient utilities */
+  .bg-gradient-cmm-orange {
+    background: linear-gradient(135deg, hsl(var(--accent-3)), hsl(var(--color-attention)));
+  }
+
+  .bg-gradient-cmm-magenta {
+    background: linear-gradient(135deg, hsl(var(--accent-2)), hsl(var(--accent-6)));
+  }
+
+  .bg-gradient-cmm-cyan {
+    background: linear-gradient(135deg, hsl(var(--accent-1)), hsl(var(--accent-5)));
+  }
+
+  /* Theme-specific utilities for InfoTooltip */
+  .theme-info-button {
+    background: linear-gradient(45deg, hsl(var(--info-button-bg)), hsl(var(--info-button-bg-end)));
+  }
+  
+  .theme-info-button-grey {
+    background: linear-gradient(45deg, hsl(var(--info-button-grey)), hsl(var(--info-button-grey-end)));
+  }
+
+  /* Custom fade-in animation for landing page */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* Pill bottle animations for splash screen */
+  @keyframes pill-bottle-shake {
+    0%, 100% {
+      transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    }
+    20% {
+      transform: translateX(-50%) translateY(-50%) rotate(-5deg);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-50%) rotate(7deg);
+    }
+    65% {
+      transform: translateX(-50%) translateY(-50%) rotate(-2deg);
+    }
+    80% {
+      transform: translateX(-50%) translateY(-50%) rotate(5deg);
+    }
+  }
+
+  @keyframes pill-rotate {
+    0% {
+      left: 150%;
+    }
+    100% {
+      left: -100%;
+    }
+  }
+
+  @keyframes pill-cap-shadow {
+    0%, 100% {
+      width: 30px;
+    }
+    20% {
+      width: 35px;
+    }
+    50% {
+      width: 20px;
+    }
+    78% {
+      width: 33px;
+    }
+  }
+
+  .animate-pill-bottle-shake {
+    animation: pill-bottle-shake 2s ease-in-out infinite;
+  }
+
+  .animate-pill-rotate {
+    animation: pill-rotate 1s linear infinite;
+  }
+
+  .animate-pill-cap-shadow {
+    animation: pill-cap-shadow 2s ease-in-out infinite;
+  }
+}
